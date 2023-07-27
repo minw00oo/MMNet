@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 a = 'after first_encoder_block'
 b = 'befor last_decoder_block'
 
-model = load_model('MNet5.h5')
+model = load_model('pre_trained model.h5')
 model.summary()
 
 for layer in model.layers[a:b]:
