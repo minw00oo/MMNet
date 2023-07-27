@@ -24,7 +24,7 @@ def decoder_block(input, skip_features, num_filters):
     x = Concatenate()([x, skip_features])
     x = conv_block(x, num_filters)
     return x
-#%%
+
 inputs = Input((64, 64, 3))
 
 s1, p1 = encoder_block(inputs, 16)
@@ -49,28 +49,3 @@ model.compile(optimizer=adam,
               loss="mse",
               metrics=["mse"])
 model.summary()
-#%%
-import numpy as np
-import seaborn as sns
-import random
-import matplotlib.pyplot as plt
-
-data2 = np.load('dataset2.npy')
-
-target2 = np.load('target2.npy')
-#%%
-train_data = data2[:5000]
-test_data = data2[5000:]
-
-target2 = target2.reshape(6000, 64, 64, 1)
-train_fem = target2[:5000]
-test_fem = target2[5000:]
-#%%
-callbacks = callbacks.EarlyStopping(patience=30, monitor='val_loss')
-
-results = model.fit(train_data, train_fem, validation_split=0.7, batch_size=100, epochs=1000, callbacks=callbacks)
-#%%
-pred_fem = model.predict(test_data)
-
-test_fem = test_fem.reshape(3000, 64, 64)
-pred_fem = pred_fem.reshape(3000, 64, 64)
